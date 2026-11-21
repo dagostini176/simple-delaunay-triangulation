@@ -29,3 +29,10 @@ The Bowyer-Watson algorithm is easy to describe but fiddly to implement correctl
 ## Awkward edge
 
 Four points that lie exactly on a common circle admit two equally valid Delaunay triangulations. This implementation resolves the ambiguity by treating cocircular points as outside the circumcircle, so the first valid triangulation encountered is kept. Both answers are correct; the library simply picks one deterministically. Near-duplicate points are not snapped, so they can produce sliver triangles — that is the expected behaviour of a Delaunay triangulation without a snapping tolerance.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
